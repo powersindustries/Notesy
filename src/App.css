@@ -1,0 +1,73 @@
+/* General Styling. */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'JetBrains Mono';
+}
+
+.container {
+    width: 25em;
+    height: 30em;
+}
+
+html {
+    height: 100%;
+    margin: 0;
+    width: 100vw;
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* Header */
+header {
+    margin: auto;
+    text-align: center;
+    width: 100%;
+    height: 3em;
+    padding: 5px;
+}
+
+
+/* Body */
+body {
+    display: table;
+    vertical-align: middle;
+
+    padding: 5px;
+    margin: auto;
+    max-width: 720px;
+    background: #ecf0f1;
+}
+
+
+/* Footer */
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 5px;
+
+    color: white;
+    text-align: center;
+}
+
+.new-note {
+    display: flex;
+    flex-direction: column;
+}
+
+.new-note input {
+    font-size: 16px;
+}
+
+.new-note textarea {
+    height: 100px;
+    text-align: start;
+    vertical-align: text-top;
+    font-size: 16px;
+}

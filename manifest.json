@@ -1,0 +1,26 @@
+{
+    "manifest_version": 2,
+    "name": "Notesy",
+    "version": "1.0",
+    "description": "Keep notes for each website you visit.",
+
+    "permissions": [
+        "storage",
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+    ],
+
+    "browser_action": {
+        "default_title" : "Notesy Window",
+        "default_popup": "dist/js/index.html"
+    },
+
+    "background": {
+        "scripts": [
+            "background/background.js"
+        ],
+        "persistent": false
+    }
+
+}

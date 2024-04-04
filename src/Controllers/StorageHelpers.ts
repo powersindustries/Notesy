@@ -1,6 +1,6 @@
 import Note from "../Models/Note";
 
-const GENERAL_NOTE_KEY : string = "GENERAL";
+export const GLOBAL_NOTE_KEY : string = "GLOBAL";
 
 
 function broadcastStorageChanged() {

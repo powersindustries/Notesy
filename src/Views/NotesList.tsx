@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { deleteNote } from '../Controllers/StorageHelpers';
+import { deleteNote, GLOBAL_NOTE_KEY } from '../Controllers/StorageHelpers';
 import Note from '../Models/Note';
 
 function NotesList() {
@@ -7,9 +7,9 @@ function NotesList() {
     const [url, setUrl] = useState<string>("");
 
     useEffect(() => {
-       
+
         window.addEventListener("storage", onStorageChanged);
- 
+
         getCurrentUrl();
 
         return () => {
@@ -20,30 +20,43 @@ function NotesList() {
     async function getCurrentUrl(): Promise<void> {
         const getCurrentUrlResponse = await browser.runtime.sendMessage({ type: 'get_current_url' });
         const urlString: string = getCurrentUrlResponse.key;
- 
+
         setUrl(urlString);
 
         onStorageChanged();
     }
 
     function onStorageChanged() {
-        if (url){
 
-            const valueString: string | null = localStorage.getItem(url);
+        const updatedData: Note[] = [];
 
-            if (valueString){
-                const updatedData: Note[] = JSON.parse(valueString);
-                setNotesList(updatedData);
+        // Global notes.
+        const globalString: string | null = localStorage.getItem(GLOBAL_NOTE_KEY);
+        if (globalString) {
+            const globalData: Note[] = JSON.parse(globalString);
 
-                return;
+            for (let note of globalData) {
+                updatedData.push(note);
             }
         }
 
-        setNotesList([]);
+        // Url specific notes.
+        if (url) {
+            const urlString: string | null = localStorage.getItem(url);
+            if (urlString) {
+                const urlNotesData: Note[] = JSON.parse(urlString);
+
+                for (let note of urlNotesData) {
+                    updatedData.push(note);
+                }
+            }
+        }
+
+        setNotesList(updatedData);
     }
 
     function onDeleteNoteClicked(value: Note) {
-        deleteNote(url, value);
+        deleteNote(value.url, value);
     }
 
 

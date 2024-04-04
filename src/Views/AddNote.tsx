@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addNewNote } from "../Controllers/StorageHelpers";
+import { addNewNote, GLOBAL_NOTE_KEY } from "../Controllers/StorageHelpers";
 import Note from "../Models/Note";
 
 function AddNote() {
@@ -7,6 +7,7 @@ function AddNote() {
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string>("");
     const [url, setUrl] = useState<string>("");
+    const [bIsGlobal, setBIsGlobal] = useState<boolean>(true);
 
     useEffect(() => {
 
@@ -32,9 +33,10 @@ function AddNote() {
     }
 
     function onSaveClicked() {
-        const newNote = new Note(url, title, content);
+        const noteUrl: string = bIsGlobal ? GLOBAL_NOTE_KEY : url;
+        const newNote = new Note(noteUrl, title, content);
 
-        addNewNote(url, newNote);
+        addNewNote(noteUrl, newNote);
 
         setTitle("");
         setContent("");
@@ -61,6 +63,17 @@ function AddNote() {
                 value={content}
                 onChange={onContentChanged}
             />
+
+            <label>
+                <p>Global Note</p>
+                <input
+                    id="global"
+                    type="checkbox"
+                    checked={bIsGlobal}
+                    onChange={(event) => setBIsGlobal(event.target.checked)}
+                />
+            </label>
+
 
             <button onClick={onSaveClicked}>Save</button>
         </div>

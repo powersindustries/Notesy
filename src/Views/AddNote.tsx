@@ -36,7 +36,7 @@ function AddNote() {
         const noteUrl: string = bIsGlobal ? GLOBAL_NOTE_KEY : url;
         const newNote = new Note(noteUrl, title, content);
 
-        addNewNote(noteUrl, newNote);
+        addNewNote(newNote);
 
         setTitle("");
         setContent("");

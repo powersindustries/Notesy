@@ -28,27 +28,27 @@ export function clearAllLocalStorage() {
 }
 
 
-export function addNewNote(inUrl: string, inNote: Note) {
-    const localStorageString: string | null = localStorage.getItem(inUrl);
+export function addNewNote(inNote: Note) {
+    const localStorageString: string | null = localStorage.getItem(inNote.url);
 
     if (localStorageString === null) {
         let localStorageArray: Note[] = [];
         localStorageArray.push(inNote);
 
-        localStorage.setItem(inUrl, JSON.stringify(localStorageArray));
+        localStorage.setItem(inNote.url, JSON.stringify(localStorageArray));
     } else {
         let localStorageArray: Note[] = JSON.parse(localStorageString);
         localStorageArray.push(inNote);
 
-        localStorage.setItem(inUrl, JSON.stringify(localStorageArray));
+        localStorage.setItem(inNote.url, JSON.stringify(localStorageArray));
     }
 
     broadcastStorageChanged();
 }
 
 
-export function deleteNote(inUrl: string, inNote: Note) {
-    const localStorageString: string | null = localStorage.getItem(inUrl);
+export function deleteNote(inNote: Note) {
+    const localStorageString: string | null = localStorage.getItem(inNote.url);
 
     if (localStorageString === null) {
         console.error("Storage string (" + localStorageString + ") doesnt exist.");
@@ -68,7 +68,7 @@ export function deleteNote(inUrl: string, inNote: Note) {
         }
     }
 
-    localStorage.setItem(inUrl, JSON.stringify(newStorageArray));
+    localStorage.setItem(inNote.url, JSON.stringify(newStorageArray));
 
     broadcastStorageChanged();
 }

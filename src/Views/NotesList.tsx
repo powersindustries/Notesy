@@ -55,8 +55,8 @@ function NotesList() {
         setNotesList(updatedData);
     }
 
-    function onDeleteNoteClicked(value: Note) {
-        deleteNote(value.url, value);
+    function onDeleteNoteClicked(noteToDelete: Note) {
+        deleteNote(noteToDelete);
     }
 
 

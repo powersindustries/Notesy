@@ -29,39 +29,41 @@ async function handleOnMessage(response) {
 
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
-function handleOnConnected(response) {
+async function handleOnConnected(response) {
 
+    
     browser.tabs.query({ currentWindow: true, active: true })
         .then((tabs) => {
 
             // save current URL to storage.
             const currentUrl = getCleanedUrlLocal(tabs[0].url);
             const currentUrlKey = { key: currentUrl };
-            browser.storage.local.set({ currentUrlKey })
-                .catch(error => console.error('Error saving data:', error));
+            browser.storage.local.set({ currentUrlKey }).then(() => {
 
-            // Update browser extension icon.
-            let allStoredNotes = browser.storage.local.get(null);
-            allStoredNotes.then((results) => {
-                const bNotesExist = results[currentUrl] !== undefined;
+                browser.storage.local.get('noteStorage').then(storageItems => {
 
-                if (bNotesExist){
-                    browser.browserAction.setIcon({
-                        path: {
-                          16: "../assets/icon216.jpg",
-                          32: "../assets/icon232.jpg",
-                        },
-                      });
-                      
-                } else {
-                    browser.browserAction.setIcon({
-                        path: {
-                          16: "../assets/icon116.jpg",
-                          32: "../assets/icon132.jpg",
-                        },
-                      });
-                }
-            });
+                    const bNotesExist = storageItems[currentUrl] !== undefined;
+                    if (bNotesExist) {
+                        browser.browserAction.setIcon({
+                            path: {
+                                16: "../assets/icon216.jpg",
+                                32: "../assets/icon232.jpg",
+                            },
+                        });
+
+                    } else {
+                        browser.browserAction.setIcon({
+                            path: {
+                                16: "../assets/icon116.jpg",
+                                32: "../assets/icon132.jpg",
+                            },
+                        });
+                    }
+
+                }).catch(error => {
+                    console.error('Error retrieving local storage data:', error);
+                });
+            })
         });
 }
 

@@ -28,31 +28,14 @@ function NotesList() {
 
     function onStorageChanged() {
 
-        const updatedData: Note[] = [];
+        browser.storage.local.get([GLOBAL_NOTE_KEY, url])
+            .then(notes => {
 
-        // Global notes.
-        const globalString: string | null = localStorage.getItem(GLOBAL_NOTE_KEY);
-        if (globalString) {
-            const globalData: Note[] = JSON.parse(globalString);
+                const globalNotes: Note[] = notes[GLOBAL_NOTE_KEY] !== undefined ? notes[GLOBAL_NOTE_KEY] : [];
+                const urlNotes: Note[] = notes[url] !== undefined ? notes[url] : [];
 
-            for (let note of globalData) {
-                updatedData.push(note);
-            }
-        }
-
-        // Url specific notes.
-        if (url) {
-            const urlString: string | null = localStorage.getItem(url);
-            if (urlString) {
-                const urlNotesData: Note[] = JSON.parse(urlString);
-
-                for (let note of urlNotesData) {
-                    updatedData.push(note);
-                }
-            }
-        }
-
-        setNotesList(updatedData);
+                setNotesList([...globalNotes, ...urlNotes]);
+            });
     }
 
     function onDeleteNoteClicked(noteToDelete: Note) {

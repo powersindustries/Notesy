@@ -1,6 +1,6 @@
 import Note from "../Models/Note";
 
-export const GLOBAL_NOTE_KEY : string = "GLOBAL";
+export const GLOBAL_NOTE_KEY: string = "GLOBAL";
 
 
 function broadcastStorageChanged() {
@@ -29,46 +29,42 @@ export function clearAllLocalStorage() {
 
 
 export function addNewNote(inNote: Note) {
-    const localStorageString: string | null = localStorage.getItem(inNote.url);
 
-    if (localStorageString === null) {
-        let localStorageArray: Note[] = [];
-        localStorageArray.push(inNote);
+    browser.storage.local.get([inNote.url])
+        .then(notes => {
 
-        localStorage.setItem(inNote.url, JSON.stringify(localStorageArray));
-    } else {
-        let localStorageArray: Note[] = JSON.parse(localStorageString);
-        localStorageArray.push(inNote);
+            const notesObject: Note[] = notes[inNote.url] !== undefined ? notes[inNote.url] : [];
+            notesObject.push(inNote);
 
-        localStorage.setItem(inNote.url, JSON.stringify(localStorageArray));
-    }
-
-    broadcastStorageChanged();
+            browser.storage.local.set({ [inNote.url]: notesObject })
+                .then(() => {
+                    broadcastStorageChanged();
+                });
+        });
 }
 
 
 export function deleteNote(inNote: Note) {
-    const localStorageString: string | null = localStorage.getItem(inNote.url);
 
-    if (localStorageString === null) {
-        console.error("Storage string (" + localStorageString + ") doesnt exist.");
-        return;
-    }
+    browser.storage.local.get([inNote.url])
+        .then(notes => {
 
-    const localStorageArray: Note[] = JSON.parse(localStorageString);
-    let newStorageArray: Note[] = [];
+            const urlNotes: Note[] = notes[inNote.url] !== undefined ? notes[inNote.url] : [];
+            let newStorageArray: Note[] = [];
 
-    for (let x: number = 0; x < localStorageArray.length; ++x) {
-        const currNote: Note = localStorageArray[x];
-    
-        if (!(currNote.url === inNote.url && 
-            currNote.title === inNote.title && 
-            currNote.content === inNote.content)){
-            newStorageArray.push(currNote);
-        }
-    }
+            for (let x: number = 0; x < urlNotes.length; ++x) {
+                const currNote: Note = urlNotes[x];
 
-    localStorage.setItem(inNote.url, JSON.stringify(newStorageArray));
+                if (!(currNote.url === inNote.url &&
+                    currNote.title === inNote.title &&
+                    currNote.content === inNote.content)) {
+                    newStorageArray.push(currNote);
+                }
+            }
 
-    broadcastStorageChanged();
+            browser.storage.local.set({ [inNote.url]: newStorageArray })
+                .then(() => {
+                    broadcastStorageChanged();
+                });
+        });
 }

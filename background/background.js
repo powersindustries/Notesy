@@ -41,19 +41,9 @@ async function handleOnConnected(response) {
             const currentUrlKey = { key: currentUrl };
             browser.storage.local.set({ currentUrlKey }).then(() => {
 
-                browser.storage.local.get([GLOBAL_NOTE_KEY, currentUrl]).then(storage => {
+                browser.storage.local.get([currentUrl]).then(storage => {
 
-                    let bNotexist = false;
-                    if (Object.keys(storage).length > 0) {
-                        for (const key in storage) {
-                            if (storage.hasOwnProperty(key) && storage[key].length > 0) {
-                                console.log(key);
-                                bNotexist = true;
-                            }
-                        }
-                    }
-
-                    if (bNotexist) {
+                    if (storage !== undefined && storage[currentUrl] && storage[currentUrl].length > 0) {
                         browser.browserAction.setIcon({
                             path: {
                                 16: "../assets/icon216.jpg",

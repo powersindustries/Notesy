@@ -1,3 +1,5 @@
+const GLOBAL_NOTE_KEY = "GLOBAL";
+
 // ----------------------------------------------------------------
 // ----------------------------------------------------------------
 function getCleanedUrlLocal(inURL) {
@@ -31,19 +33,27 @@ async function handleOnMessage(response) {
 // ----------------------------------------------------------------
 async function handleOnConnected(response) {
 
-    
+
     browser.tabs.query({ currentWindow: true, active: true })
         .then((tabs) => {
 
-            // save current URL to storage.
             const currentUrl = getCleanedUrlLocal(tabs[0].url);
             const currentUrlKey = { key: currentUrl };
             browser.storage.local.set({ currentUrlKey }).then(() => {
 
-                browser.storage.local.get('noteStorage').then(storageItems => {
+                browser.storage.local.get([GLOBAL_NOTE_KEY, currentUrl]).then(storage => {
 
-                    const bNotesExist = storageItems[currentUrl] !== undefined;
-                    if (bNotesExist) {
+                    let bNotexist = false;
+                    if (Object.keys(storage).length > 0) {
+                        for (const key in storage) {
+                            if (storage.hasOwnProperty(key) && storage[key].length > 0) {
+                                console.log(key);
+                                bNotexist = true;
+                            }
+                        }
+                    }
+
+                    if (bNotexist) {
                         browser.browserAction.setIcon({
                             path: {
                                 16: "../assets/icon216.jpg",
@@ -60,8 +70,6 @@ async function handleOnConnected(response) {
                         });
                     }
 
-                }).catch(error => {
-                    console.error('Error retrieving local storage data:', error);
                 });
             })
         });

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { deleteNote, GLOBAL_NOTE_KEY } from '../Controllers/StorageHelpers';
+import { GLOBAL_NOTE_KEY } from '../Controllers/StorageHelpers';
+import { ContextsEnum } from '../Models/ContextEnums';
 import Note from '../Models/Note';
+import ListNote from './ListNote';
 
 
-function NotesList() {
+function NotesList(props: any) {
     const [globalNotesList, setGlobalNotesList] = useState<Note[]>([]);
     const [urlNotesList, setUrlNotesList] = useState<Note[]>([]);
     const [url, setUrl] = useState<string>("");
@@ -21,6 +23,7 @@ function NotesList() {
     }, [url]);
 
 
+    // Storage methods.
     async function getCurrentUrl(): Promise<void> {
         const getCurrentUrlResponse = await browser.runtime.sendMessage({ type: 'get_current_url' });
         const urlString: string = getCurrentUrlResponse.key;
@@ -45,8 +48,9 @@ function NotesList() {
     }
 
 
-    function onDeleteNoteClicked(noteToDelete: Note) {
-        deleteNote(noteToDelete);
+    // UI methods.
+    function noteClickedMethod(note: Note) {
+        props.notesListPropsCalled(note);
     }
 
 
@@ -58,14 +62,12 @@ function NotesList() {
                         <p>{url}</p>
                         {
                             urlNotesList.map((note: Note) => (
-                            <div>
 
-                                <p>{note.title}</p>
-                                <p>{note.content}</p>
-                                <button onClick={() => onDeleteNoteClicked(note)}>Delete</button>
-                                <br />
+                            <ListNote 
+                                note={note} 
+                                noteClickedMethod={noteClickedMethod} 
+                                /> 
 
-                            </div>
                         ))}
 
                     </div>
@@ -85,12 +87,10 @@ function NotesList() {
                         {
                             globalNotesList.map((note: Note) => (
 
-                            <div>
-                                <p>{note.title}</p>
-                                <p>{note.content}</p>
-                                <button onClick={() => onDeleteNoteClicked(note)}>Delete</button>
-                                <br />
-                            </div>
+                            <ListNote 
+                                note={note} 
+                                noteClickedMethod={noteClickedMethod} 
+                                /> 
 
                         ))}
                     </div>

@@ -6,9 +6,7 @@
 
     "permissions": [
         "storage",
-        "tabs",
-        "http://*/*",
-        "https://*/*"
+        "tabs"
     ],
 
     "browser_action": {

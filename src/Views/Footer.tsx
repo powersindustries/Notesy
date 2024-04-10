@@ -1,16 +1,15 @@
-import { clearAllLocalStorage } from '../Controllers/StorageHelpers';
+import { ContextsEnum } from "../Models/ContextEnums";
 
-function Footer() {
 
-    function onClearNotesButtonClicked() {
-        clearAllLocalStorage();
+function Footer(props: any) {
+
+    function onAddNoteClicked() {
+        props.changeContext(ContextsEnum.AddNote);
     }
  
     return (
         <footer>
-
-            <button onClick={onClearNotesButtonClicked}>Clear All Notes</button>
-
+            <button onClick={onAddNoteClicked}>Add Note</button>
         </footer>
     );
 }

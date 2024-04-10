@@ -76,3 +76,5 @@ browser.windows.onFocusChanged.addListener(handleOnConnected);
 browser.storage.local.onChanged.addListener(handleOnConnected);
 
 browser.runtime.onMessage.addListener(handleOnMessage);
+
+handleOnConnected();

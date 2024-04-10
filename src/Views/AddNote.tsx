@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { addNewNote, GLOBAL_NOTE_KEY } from "../Controllers/StorageHelpers";
+import { ContextsEnum } from "../Models/ContextEnums";
 import Note from "../Models/Note";
 
-function AddNote() {
+
+function AddNote(props: any) {
 
     const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string>("");
@@ -32,7 +34,15 @@ function AddNote() {
         setContent(value);
     }
 
+    function onBackClicked() {
+        props.changeContext(ContextsEnum.ViewList);
+    }
+
     function onSaveClicked() {
+        if (title === "" || content === "") {
+            return;
+        }
+
         const noteUrl: string = bIsGlobal ? GLOBAL_NOTE_KEY : url;
         const newNote = new Note(noteUrl, title, content);
 
@@ -40,10 +50,17 @@ function AddNote() {
 
         setTitle("");
         setContent("");
+
+        props.changeContext(ContextsEnum.ViewList);
     }
 
     return (
         <div className="new-note">
+
+            <button
+                onClick={ onBackClicked }>
+                Back
+            </button>
 
             <p>{url}</p>
 
@@ -74,8 +91,11 @@ function AddNote() {
                 />
             </label>
 
+            <button 
+                onClick={onSaveClicked}>
+                Save
+            </button>
 
-            <button onClick={onSaveClicked}>Save</button>
         </div>
     );
 }

@@ -101,17 +101,34 @@ function NotesList(props: any) {
     }
 
 
+    function getNotesListUI() {
+        if (globalNotesList.length > 0 || urlNotesList.length > 0) {
+            return (
+                <div>
+                    <div>
+                        {getUrlNotesUI()}
+                    </div>
+                    <div>
+                        {getGlobalNotesUI()}
+                    </div>
+                </div>
+               );
+
+        }
+
+        return (
+            <div>
+                <p>No notes exist. Add a note using the button below.</p>
+            </div>
+        );
+
+    }
+
     return (
         <div>
             <div>
-                {getUrlNotesUI()}
+                {getNotesListUI()}
             </div>
-            <br/>
-            <br/>
-            <div>
-                {getGlobalNotesUI()}
-            </div>
-
         </div>
     );
 

@@ -56,7 +56,6 @@ export function deleteNote(inNote: Note) {
                 const currNote: Note = urlNotes[x];
 
                 if (!(currNote.url === inNote.url &&
-                    currNote.title === inNote.title &&
                     currNote.content === inNote.content)) {
                     newStorageArray.push(currNote);
                 }

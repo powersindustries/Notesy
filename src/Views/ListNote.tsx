@@ -8,7 +8,6 @@ function ListNote(prop: NotePropInterface) {
                 <button 
                     className="list-note"
                     onClick={() => prop.noteClickedMethod(prop.note) }>
-                    <p>{prop.note.title}</p>
                     <p>{prop.note.content}</p>
                 </button>
 

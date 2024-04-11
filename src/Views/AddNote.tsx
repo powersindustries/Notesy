@@ -5,17 +5,17 @@ import Note from "../Models/Note";
 
 
 function AddNote(props: any) {
-
-    const [title, setTitle] = useState<string>("");
     const [content, setContent] = useState<string>("");
     const [url, setUrl] = useState<string>("");
     const [bIsGlobal, setBIsGlobal] = useState<boolean>(true);
+
 
     useEffect(() => {
 
         getCurrentUrl();
 
     }, []);
+
 
     async function getCurrentUrl(): Promise<void> {
         const getCurrentUrlResponse = await browser.runtime.sendMessage({ type: 'get_current_url' });
@@ -24,77 +24,71 @@ function AddNote(props: any) {
         setUrl(urlString);
     }
 
-    function onTitleChanged(event: React.ChangeEvent<HTMLInputElement>) {
-        const { value } = event.target;
-        setTitle(value);
-    }
 
+    // UI delegates.
     function onContentChanged(event: React.ChangeEvent<HTMLTextAreaElement>) {
         const { value } = event.target;
         setContent(value);
     }
 
+
     function onBackClicked() {
         props.changeContext(ContextsEnum.ViewList);
     }
 
+
     function onSaveClicked() {
-        if (title === "" || content === "") {
+        if (content === "") {
             return;
         }
 
         const noteUrl: string = bIsGlobal ? GLOBAL_NOTE_KEY : url;
-        const newNote = new Note(noteUrl, title, content);
+        const newNote = new Note(noteUrl, content);
 
         addNewNote(newNote);
 
-        setTitle("");
         setContent("");
 
         props.changeContext(ContextsEnum.ViewList);
     }
 
+
     return (
         <div className="new-note">
 
             <button
+                className="new-note-back"
                 onClick={ onBackClicked }>
                 Back
             </button>
 
-            <p>{url}</p>
-
-            <input 
-                type="text"
-                id="title"
-                placeholder="Title"
-                required
-                value={title}
-                onChange={onTitleChanged}
-            />
-
             <textarea
                 id="description"
-                placeholder="Description"
+                placeholder="Note"
                 required
                 value={content}
                 onChange={onContentChanged}
             />
 
-            <label>
-                <p>Global Note</p>
+
+            <div className="new-note-global-note">
+                <label >Global Note?</label>
                 <input
+                    className="new-note-global-note-checkbox"
                     id="global"
                     type="checkbox"
                     checked={bIsGlobal}
                     onChange={(event) => setBIsGlobal(event.target.checked)}
                 />
-            </label>
+            </div>
 
-            <button 
+
+            <button
+                className="new-note-save"
                 onClick={onSaveClicked}>
                 Save
             </button>
+
 
         </div>
     );

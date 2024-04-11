@@ -27,23 +27,27 @@ function ViewNote(prop: any) {
 
 
     return (
-            <div>
+            <div className="note">
 
-            <button
-                onClick={onBackClicked}
-            >
-                Back
-            </button>
+                <button
+                    className="note-back"
+                    onClick={onBackClicked}
+                    >
+                    Back
+                </button>
 
-            <button
-                onClick={onDeleteNoteClicked}
-            >
-                Delete
-            </button>
 
-            <textarea
-                value={content}
-            />
+                <textarea
+                    value={content}
+                />
+
+
+                <button
+                    className="note-save"
+                    onClick={onDeleteNoteClicked}
+                    >
+                    Delete
+                </button>
 
             </div>
            );

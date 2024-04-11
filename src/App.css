@@ -60,31 +60,31 @@ footer {
 }
 
 
-/* New Note Styles. */
-.new-note {
+/* New Note and View Note Styles. */
+.note {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.new-note-back {
+.note-back {
     margin-top: 5px;
     margin-left: auto;
 
     width: 100px;
 }
 
-.new-note-global-note {
+.note-global-note {
     margin-top: 5px;
 }
 
-.new-note-global-note-checkbox {
+.note-global-note-checkbox {
     width: 20px;
     height: 20px;
     margin-left: 10px;
 }
 
-.new-note textarea {
+.note textarea {
     height: 400px;
     width: 100%;
     margin-top: 5px;
@@ -92,11 +92,12 @@ footer {
     resize: none;
 }
 
-.new-note-save {
+.note-save {
     margin-top: 5px;
     width: 150px;
     align-self: center;
 }
+
 
 
 /* Notes list. */

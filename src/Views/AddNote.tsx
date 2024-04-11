@@ -54,10 +54,10 @@ function AddNote(props: any) {
 
 
     return (
-        <div className="new-note">
+        <div className="note">
 
             <button
-                className="new-note-back"
+                className="note-back"
                 onClick={ onBackClicked }>
                 Back
             </button>
@@ -71,10 +71,10 @@ function AddNote(props: any) {
             />
 
 
-            <div className="new-note-global-note">
+            <div className="note-global-note">
                 <label >Global Note?</label>
                 <input
-                    className="new-note-global-note-checkbox"
+                    className="note-global-note-checkbox"
                     id="global"
                     type="checkbox"
                     checked={bIsGlobal}
@@ -84,7 +84,7 @@ function AddNote(props: any) {
 
 
             <button
-                className="new-note-save"
+                className="note-save"
                 onClick={onSaveClicked}>
                 Save
             </button>

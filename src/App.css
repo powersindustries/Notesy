@@ -100,8 +100,16 @@ footer {
 
 
 
-/* Notes list. */
+/* List Note and Notes List. */
 .list-note {
-    background-color: #F0F1F3;
     width: 90%;
+    height: 75px;
+    margin: 5px; 
+    padding: 5px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.5em;
+    text-align: left;
 }

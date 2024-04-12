@@ -1,6 +1,17 @@
 import { NotePropInterface } from "../Models/NotePropInterface";
 
 function ListNote(prop: NotePropInterface) {
+    const maxTextLength: number = 125;
+    const elipsesCharacter: string = "...";
+
+    function getDisplayableContent() {
+        if (prop.note.content.length > maxTextLength) {
+            return prop.note.content.substring(0,maxTextLength) + elipsesCharacter;
+        }
+         
+        return prop.note.content;
+    }
+
 
     return (
             <div>
@@ -8,7 +19,7 @@ function ListNote(prop: NotePropInterface) {
                 <button 
                     className="list-note"
                     onClick={() => prop.noteClickedMethod(prop.note) }>
-                    <p>{prop.note.content}</p>
+                    <p>{getDisplayableContent()}</p>
                 </button>
 
             </div>

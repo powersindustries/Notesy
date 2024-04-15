@@ -46,16 +46,16 @@ async function handleOnConnected(response) {
                     if (storage !== undefined && storage[currentUrl] && storage[currentUrl].length > 0) {
                         browser.browserAction.setIcon({
                             path: {
-                                16: "../assets/icon216.jpg",
-                                32: "../assets/icon232.jpg",
+                                16: "../assets/icon216.png",
+                                32: "../assets/icon232.png",
                             },
                         });
 
                     } else {
                         browser.browserAction.setIcon({
                             path: {
-                                16: "../assets/icon116.jpg",
-                                32: "../assets/icon132.jpg",
+                                16: "../assets/icon116.png",
+                                32: "../assets/icon132.png",
                             },
                         });
                     }
